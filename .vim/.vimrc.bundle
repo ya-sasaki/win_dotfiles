@@ -1,0 +1,52 @@
+set nocompatible
+filetype off
+
+if has('vim_starting')
+  set runtimepath+=~/.vim/bundle/neobundle.vim
+
+  call neobundle#rc(expand('~/.vim/bundle'))
+endif
+
+" let NeoBundle manage NeoBundle
+" required! 
+NeoBundle 'Shougo/neobundle.vim'
+" recommended to install
+NeoBundle 'Shougo/vimproc'
+" after install, turn shell ~/.vim/bundle/vimproc, (n,g)make -f your_machines_makefile
+NeoBundle 'Shougo/vimshell'
+NeoBundle 'Shougo/unite.vim'
+
+" zen-coding
+NeoBundle 'git://github.com/mattn/zencoding-vim.git'
+" neocomplcache
+NeoBundle 'git://github.com/Shougo/neocomplcache.git'
+" Align
+NeoBundle 'git://github.com/vim-scripts/Align.git'
+" QuickRun
+NeoBundle 'git://github.com/thinca/vim-quickrun.git'
+" sudo
+NeoBundle 'git://github.com/vim-scripts/sudo.vim.git'
+" colorschema
+NeoBundle 'git://github.com/mrtazz/molokai.vim.git'
+" transparency
+NeoBundle 'git://github.com/mattn/vimtweak.git'
+NeoBundle 'git://github.com/mattn/transparency-windows-vim.git'
+" surround
+NeoBundle 'git://github.com/tpope/vim-surround.git'
+" comment out
+NeoBundle 'git://gist.github.com/925377.git'
+" Gui Font Changer
+"NeoBundle 'git://github.com/thinca/vim-fontzoom.git'
+NeoBundle 'git://github.com/taku-o/vim-zoom.git'
+" Matchit
+NeoBundle 'git://github.com/edsono/vim-matchit.git'
+" Power line
+NeoBundle 'git://github.com/Lokaltog/vim-powerline.git'
+" NERDTree
+NeoBundle 'git://github.com/scrooloose/nerdtree.git'
+
+"php Dict
+NeoBundle 'git://github.com/vim-scripts/PHP-dictionary.git'
+filetype plugin on
+filetype indent on
+

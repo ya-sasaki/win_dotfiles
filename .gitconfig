@@ -1,0 +1,7 @@
+[user]
+	name = Yasuyuki Sasaki
+	email = ya.sasaki.ja@gmail.com
+[core]
+	editor = gvim -f
+[color]
+	ui = auto

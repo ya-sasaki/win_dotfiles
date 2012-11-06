@@ -1,0 +1,38 @@
+" CTRL-hjklでウィンドウ移動
+" 下ペインへ
+nnoremap wj <C-w>j
+" 上ペインへ
+nnoremap wk <C-w>k
+" 左ペインへ
+nnoremap wl <C-w>l
+" 右ペインへ
+nnoremap wh <C-w>h
+
+" quickrun
+nnoremap qr :<C-u>QuickRun<CR>
+
+" NERDTree
+nnoremap nt :<C-u>NERDTree<CR>
+
+" Tab
+" 最初のタブへ
+nnoremap tabf :<C-u>tabr<CR>
+" 最後のタブへ 
+nnoremap tabe :<C-u>tabl<CR>
+" 左のタブへ
+nnoremap tabh :<C-u>tabN<CR>
+" 右タブへ
+nnoremap tabl :<C-u>tabn<CR>
+" 開いているタブ以外を閉じる
+nnoremap tabo :<C-u>tabo<CR>
+" タブを閉じる
+nnoremap tabc :<C-u>tabc<CR>
+
+" 括弧
+"inoremap {} {}<Left>
+"inoremap () ()<Left>
+"inoremap [] []<Left>
+"inoremap '' ''<Left>
+"inoremap "" ""<Left>
+"inoremap `` ``<Left>
+"inoremap <> <><Left>

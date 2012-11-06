@@ -1,0 +1,9 @@
+" PHP Dictionary
+autocmd FileType php :set dictionary=~/.vim/bundle/PHP-dictionary/PHP.dict
+"" PHP lint
+autocmd FileType php :nmap ,l :call PHPLint()<CR>
+function PHPLint()
+    let result = system( &ft . ' -l ' . bufname(""))
+    echo result
+endfunction
+

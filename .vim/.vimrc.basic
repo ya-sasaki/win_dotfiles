@@ -1,0 +1,258 @@
+set nocompatible
+
+" .vimrcのエンコーディング
+scriptencoding utf-8
+" ファイルフォーマット(LF)
+set fileformat=unix
+" 文字コード自動認識
+set fileencodings=iso-2022-jp,utf-8,cp932,euc-jp,default,latin
+
+" backup
+set nowritebackup
+set nobackup
+set noswapfile
+
+" クリップボードを共有
+set clipboard+=unnamed
+" 8進数を無効にする。<C-a>,<C-x>に影響する
+set nrformats-=octal
+" キーコードやマッピングされたキー列が完了するのを待つ時間(ミリ秒)
+set timeout timeoutlen=3000 ttimeoutlen=100
+" 編集結果非保存のバッファから、新しいバッファを開くときに警告を出さない
+set hidden
+" ヒストリの保存数
+set history=50
+" 日本語の行の連結時には空白を入力しない
+set formatoptions+=mM
+" Visual blockモードでフリーカーソルを有効にする
+set virtualedit=block
+" カーソルキーで行末／行頭の移動可能に設定
+set whichwrap=b,s,[,],<,>
+" バックスペースでインデントや改行を削除できるようにする
+set backspace=indent,eol,start
+
+" □や○の文字があってもカーソル位置がずれないようにする
+set ambiwidth=double
+" コマンドライン補完するときに強化されたものを使う
+set wildmenu
+" cursorline
+set cursorline
+" マウスを有効にする
+if has('mouse')
+  set mouse=a
+endif
+" pluginを使用可能にする
+filetype plugin indent on
+
+"----------------------------------------
+" 検索
+"----------------------------------------
+" 検索の時に大文字小文字を区別しない
+" ただし大文字小文字の両方が含まれている場合は大文字小文字を区別する
+set ignorecase
+set smartcase
+" 検索時にファイルの最後まで行ったら最初に戻る
+set wrapscan
+" インクリメンタルサーチ
+set incsearch
+" 検索文字の強調表示
+set hlsearch
+" w,bの移動で認識する文字
+" set iskeyword=a-z,A-Z,48-57,_,.,-,>
+" vimgrep をデフォルトのgrepとする場合internal
+" set grepprg=internal
+
+"----------------------------------------
+" 表示設定
+"----------------------------------------
+" スプラッシュ(起動時のメッセージ)を表示しない
+" set shortmess+=I
+" エラー時の音とビジュアルベルの抑制(gvimは.gvimrcで設定)
+set noerrorbells
+set novisualbell
+set visualbell t_vb=
+" マクロ実行中などの画面再描画を行わない
+" set lazyredraw
+" Windowsでディレクトリパスの区切り文字表示に / を使えるようにする
+set shellslash
+" 行番号表示
+set number
+if version >= 703
+  " 相対行番号表示(7.3)
+  " set relativenumber
+endif
+" 括弧の対応表示時間
+set showmatch matchtime=1
+" 自動的にインデントする
+set autoindent
+" Cインデントの設定
+set cinoptions+=:0
+" タイトルを表示
+set title
+" コマンドラインの高さ (gvimはgvimrcで指定)
+set cmdheight=2
+set laststatus=2
+" コマンドをステータス行に表示
+"set showcmd
+" 画面最後の行をできる限り表示する
+set display=lastline
+" Tab、行末の半角スペースを明示的に表示する
+set list
+set listchars=tab:>-
+
+" 外部のエディタで編集中のファイルが変更されたら、自動的に読み直す
+set autoread
+" タブを表示する
+set expandtab
+" フォント
+setlocal encoding=cp932
+set guifont=あずきフォント:h14
+setlocal encoding=utf-8
+" tabspace, 自動インデントの各段階に使われる空白の数, tabstopを変えずに空白を含めることにより、見た目のtabstopを変える
+set ts=4 sw=4 sts=4
+" カーソルが何行目の何列目に置かれているかを表示する
+set ruler
+" ウィンドウの幅を超える行の折り返し設定
+set nowrap
+" カーソルの上または下に表示する最小限の行数
+set scrolloff=5
+" コマンドをステータスラインに表示する
+set showcmd
+" 現在のモードを表示する
+set showmode
+" ウィンドウのタイトルを変更する設定
+set title
+" ターミナルで使われるエンコーディング名
+set termencoding=utf-8
+" ウィンドウの高さを行単位で指定する
+"set lines=60
+" スクリーン上の列幅
+"set columns=300
+" スワップファイルを使用する設定
+set noswapfile
+" 強調表示(色付け)のON/OFF設定
+syntax on
+
+""""""""""""""""""""""""""""""
+" ステータスラインに文字コード等表示
+" iconvが使用可能の場合、カーソル上の文字コードをエンコードに応じた表示にするFencB()を使用
+""""""""""""""""""""""""""""""
+if has('iconv')
+  set statusline=%<%f\ %m\ %r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=[0x%{FencB()}]\ (%v,%l)/%L%8P\ 
+else
+  set statusline=%<%f\ %m\ %r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=\ (%v,%l)/%L%8P\ 
+endif
+
+" FencB() : カーソル上の文字コードをエンコードに応じた表示にする
+function! FencB()
+  let c = matchstr(getline('.'), '.', col('.') - 1)
+  let c = iconv(c, &enc, &fenc)
+  return s:Byte2hex(s:Str2byte(c))
+endfunction
+
+function! s:Str2byte(str)
+  return map(range(len(a:str)), 'char2nr(a:str[v:val])')
+endfunction
+
+function! s:Byte2hex(bytes)
+  return join(map(copy(a:bytes), 'printf("%02X", v:val)'), '')
+endfunction
+
+" 現バッファの差分表示(変更箇所の表示)
+command! DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
+" ファイルまたはバッファ番号を指定して差分表示。#なら裏バッファと比較
+command! -nargs=? -complete=file Diff if '<args>'=='' | browse vertical diffsplit|else| vertical diffsplit <args>|endif
+" パッチコマンド
+set patchexpr=MyPatch()
+function! MyPatch()
+   call system($VIM."\\'.'patch -o " . v:fname_out . " " . v:fname_in . " < " . v:fname_diff)
+endfunction
+
+""""""""""""""""""""""""""""""
+" ファイルを開いたら前回のカーソル位置へ移動
+" $VIMRUNTIME/vimrc_example.vim
+""""""""""""""""""""""""""""""
+augroup vimrcEx
+  autocmd!
+  autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line('$') | exe "normal! g`\"" | endif
+augroup END
+
+""""""""""""""""""""""""""""""
+" 挿入モード時、ステータスラインのカラー変更
+""""""""""""""""""""""""""""""
+let g:hi_insert = 'highlight StatusLine guifg=darkblue guibg=darkyellow gui=none ctermfg=blue ctermbg=yellow cterm=none'
+
+if has('syntax')
+  augroup InsertHook
+    autocmd!
+    autocmd InsertEnter * call s:StatusLine('Enter')
+    autocmd InsertLeave * call s:StatusLine('Leave')
+  augroup END
+endif
+if has('unix') && !has('gui_running')
+  " ESCですぐに反映されない対策
+  inoremap <silent> <ESC> <ESC>
+endif
+
+let s:slhlcmd = ''
+function! s:StatusLine(mode)
+  if a:mode == 'Enter'
+    silent! let s:slhlcmd = 'highlight ' . s:GetHighlight('StatusLine')
+    silent exec g:hi_insert
+  else
+    highlight clear StatusLine
+    silent exec s:slhlcmd
+    redraw
+  endif
+endfunction
+
+function! s:GetHighlight(hi)
+  redir => hl
+  exec 'highlight '.a:hi
+  redir END
+  let hl = substitute(hl, '[\r\n]', '', 'g')
+  let hl = substitute(hl, 'xxx', '', '')
+  return hl
+endfunction
+
+""""""""""""""""""""""""""""""
+" 全角スペースを表示
+""""""""""""""""""""""""""""""
+" コメント以外で全角スペースを指定しているので、scriptencodingと、
+" このファイルのエンコードが一致するよう注意！
+" 強調表示されない場合、ここでscriptencodingを指定するとうまくいく事があります。
+" scriptencoding cp932
+function! ZenkakuSpace()
+  silent! let hi = s:GetHighlight('ZenkakuSpace')
+  if hi =~ 'E411' || hi =~ 'cleared$'
+    highlight ZenkakuSpace cterm=underline ctermfg=darkgrey gui=underline guifg=darkgrey
+  endif
+endfunction
+if has('syntax')
+  augroup ZenkakuSpace
+    autocmd!
+    autocmd ColorScheme       * call ZenkakuSpace()
+    autocmd VimEnter,WinEnter * match ZenkakuSpace /　/
+  augroup END
+  call ZenkakuSpace()
+endif
+
+""""""""""""""""""""""""""""""
+" grep,tagsのためカレントディレクトリをファイルと同じディレクトリに移動する
+""""""""""""""""""""""""""""""
+" if exists('+autochdir')
+"   "autochdirがある場合カレントディレクトリを移動
+"   set autochdir
+" else
+"   "autochdirが存在しないが、カレントディレクトリを移動したい場合
+"   au BufEnter * execute ":silent! lcd " . escape(expand("%:p:h"), ' ')
+" endif
+
+colorscheme molokai
+
+" 挿入モード終了時に IME 状態を保存しない
+inoremap <silent> <Esc> <Esc>
+inoremap <silent> <C-[> <Esc>
+" 「日本語入力固定モード」切り替えキー
+inoremap <silent> <C-j> <C-^>
+
