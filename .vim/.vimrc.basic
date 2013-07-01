@@ -106,8 +106,8 @@ set autoread
 set expandtab
 " フォント
 setlocal encoding=cp932
-set guifont=あずきフォント:h14
-setlocal encoding=utf-8
+set guifont=あずきフォント:h10
+"setlocal encoding=utf-8
 " tabspace, 自動インデントの各段階に使われる空白の数, tabstopを変えずに空白を含めることにより、見た目のtabstopを変える
 set ts=4 sw=4 sts=4
 " カーソルが何行目の何列目に置かれているかを表示する
